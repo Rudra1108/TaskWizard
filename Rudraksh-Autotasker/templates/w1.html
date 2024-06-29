@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whack-a-Mole</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; }
+  .grid { display: flex; flex-wrap: wrap; width: 320px; margin: 0 auto; }
+  .hole { width: 80px; height: 80px; margin: 5px; background: #ccc; display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; }
+  .mole { width: 50px; height: 50px; background: brown; border-radius: 50%; position: absolute; bottom: 0; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>Whack-a-Mole</h1>
+<p>Score: <span id="score">0</span></p>
+<div class="grid"></div>
+<script>
+  const grid = document.querySelector('.grid');
+  const scoreDisplay = document.getElementById('score');
+  let score = 0;
+
+  function createGrid() {
+    for (let i = 0; i < 9; i++) {
+      const hole = document.createElement('div');
+      hole.classList.add('hole');
+      const mole = document.createElement('div');
+      mole.classList.add('mole', 'hidden');
+      mole.addEventListener('click', () => {
+        score++;
+        scoreDisplay.textContent = score;
+        mole.classList.add('hidden');
+      });
+      hole.appendChild(mole);
+      grid.appendChild(hole);
+    }
+  }
+
+  function randomHole() {
+    const holes = document.querySelectorAll('.hole');
+    return holes[Math.floor(Math.random() * holes.length)];
+  }
+
+  function showMole() {
+    const mole = randomHole().querySelector('.mole');
+    mole.classList.remove('hidden');
+    setTimeout(() => {
+      mole.classList.add('hidden');
+      showMole();
+    }, 1000);
+  }
+
+  createGrid();
+  showMole();
+</script>
+</body>
+</html>

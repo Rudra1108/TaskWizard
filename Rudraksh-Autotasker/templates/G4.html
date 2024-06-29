@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trivia Quiz</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; }
+  .question { font-size: 24px; margin: 20px 0; }
+  .answers { display: flex; flex-direction: column; }
+  .answer { background: #f4f4f4; padding: 10px; margin: 5px 0; cursor: pointer; border: 1px solid #ccc; }
+  .answer:hover { background: #ddd; }
+  .score { font-size: 20px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>Trivia Quiz</h1>
+<div class="question"></div>
+<div class="answers"></div>
+<div class="score"></div>
+<script>
+  const quizData = [
+    {
+      question: "What is the capital of France?",
+      answers: ["Paris", "London", "Berlin", "Madrid"],
+      correct: "Paris"
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      answers: ["Earth", "Mars", "Jupiter", "Saturn"],
+      correct: "Mars"
+    },
+    {
+      question: "What is the largest ocean on Earth?",
+      answers: ["Atlantic", "Indian", "Arctic", "Pacific"],
+      correct: "Pacific"
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  const questionElement = document.querySelector('.question');
+  const answersElement = document.querySelector('.answers');
+  const scoreElement = document.querySelector('.score');
+
+  function showQuestion() {
+    const currentQuestion = quizData[currentQuestionIndex];
+    questionElement.textContent = currentQuestion.question;
+    answersElement.innerHTML = '';
+    currentQuestion.answers.forEach(answer => {
+      const button = document.createElement('button');
+      button.textContent = answer;
+      button.classList.add('answer');
+      button.addEventListener('click', () => checkAnswer(answer));
+      answersElement.appendChild(button);
+    });
+  }
+
+  function checkAnswer(selectedAnswer) {
+    const currentQuestion = quizData[currentQuestionIndex];
+    if (selectedAnswer === currentQuestion.correct) {
+      score++;
+    }
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+      showQuestion();
+    } else {
+      showScore();
+    }
+  }
+
+  function showScore() {
+    questionElement.textContent = 'Quiz Over!';
+    answersElement.innerHTML = '';
+    scoreElement.textContent = `Your score is ${score} out of ${quizData.length}`;
+  }
+
+  showQuestion();
+</script>
+</body>
+</html>

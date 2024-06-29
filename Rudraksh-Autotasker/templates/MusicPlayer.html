@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Video Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            height: 600px;
+            display: flex;
+        }
+        .sidebar {
+            background: #f8f9fa;
+            padding: 20px;
+            width: 250px;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin: 0 0 20px;
+        }
+        .sidebar input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+        .playlist {
+            width: 100%;
+            margin-top: 20px;
+            padding: 0 10px;
+            overflow-y: auto;
+        }
+        .playlist ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .playlist li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .playlist li:hover {
+            background: #e9ecef;
+        }
+        .playlist li .title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .playlist li .link {
+            font-size: 0.8em;
+            color: #666;
+            word-wrap: break-word;
+        }
+        .playlist li button {
+            background: #dc3545;
+            padding: 5px 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .playlist li button:hover {
+            background: #c82333;
+        }
+        .player {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .player iframe {
+            width: 800px;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Online Video Player</h2>
+            <input type="text" id="video-url" placeholder="Enter YouTube link">
+            <button id="add-to-playlist">Add to Playlist</button>
+            <div class="playlist">
+                <h3>Playlist</h3>
+                <ul id="playlist"></ul>
+            </div>
+        </div>
+        <div class="player">
+            <iframe id="video-player" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        const addToPlaylistButton = document.getElementById('add-to-playlist');
+        const videoUrlInput = document.getElementById('video-url');
+        const playlist = document.getElementById('playlist');
+        const videoPlayer = document.getElementById('video-player');
+
+        let videoLinks = [];
+
+        addToPlaylistButton.addEventListener('click', () => {
+            const url = videoUrlInput.value.trim();
+            if (url) {
+                videoLinks.push(url);
+                updatePlaylist();
+                videoUrlInput.value = '';
+            }
+        });
+
+        function updatePlaylist() {
+            playlist.innerHTML = '';
+            videoLinks.forEach((link, index) => {
+                const videoId = getVideoId(link);
+                getVideoTitle(videoId, (title) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div class="title">${title}</div>
+                        <div class="link">${link}</div>
+                        <button onclick="removeFromPlaylist(${index})">Remove</button>
+                    `;
+                    listItem.addEventListener('click', () => {
+                        playVideo(link);
+                    });
+                    playlist.appendChild(listItem);
+                });
+            });
+        }
+
+        function removeFromPlaylist(index) {
+            videoLinks.splice(index, 1);
+            updatePlaylist();
+        }
+
+        function playVideo(link) {
+            const videoId = getVideoId(link);
+            videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        function getVideoId(link) {
+            let videoId = '';
+            if (link.includes('youtube.com/watch')) {
+                videoId = link.split('v=')[1].split('&')[0];
+            } else if (link.includes('youtu.be/')) {
+                videoId = link.split('youtu.be/')[1];
+            }
+            return videoId;
+        }
+
+        // Simulated function to get video title (replace with actual API call if desired)
+        function getVideoTitle(videoId, callback) {
+            // Simulated titles based on video IDs
+            const titles = {
+                'izymRBBH4Zo': 'अल्लू अर्जुन अपने चाचा को केस लड़ने बोलता है',
+                'MXJCnccDLA0': 'Another Video Title',
+                // Add more as needed
+            };
+
+            const title = titles[videoId] || 'Untitled'; // Default to 'Untitled' if no match found
+            callback(title);
+        }
+    </script>
+</body>
+</html>

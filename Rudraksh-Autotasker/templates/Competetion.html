@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coder RPG Game</title>
+<style>
+    /* Inline CSS styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 20px;
+    }
+    .container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+    .player-box {
+        width: 300px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .player-box h2 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    .attribute-list, .task-list, .game-events {
+        text-align: left;
+        margin-bottom: 15px;
+    }
+    .attribute-list li, .task-list li, .game-events li {
+        margin-bottom: 5px;
+    }
+    .btn-generate, .btn-task, .btn-play {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    .btn-generate:hover, .btn-task:hover, .btn-play:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+    <h1>Coder RPG Game</h1>
+    
+    <div class="container">
+        <div class="player-box" id="player1">
+            <h2>Player 1</h2>
+            <div class="attribute-list" id="attributes1">
+                <!-- Attributes will be dynamically generated here -->
+            </div>
+            <div class="task-list" id="tasks1">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+            <div class="game-events" id="events1">
+                <!-- Game events will be dynamically generated here -->
+            </div>
+            <button class="btn-generate" onclick="generateCharacter(1)">Generate Character</button>
+            <button class="btn-task" onclick="generateTask(1)">Generate Task</button>
+            <button class="btn-play" onclick="playGame(1)">Play Game</button>
+        </div>
+        <div class="player-box" id="player2">
+            <h2>Player 2</h2>
+            <div class="attribute-list" id="attributes2">
+                <!-- Attributes will be dynamically generated here -->
+            </div>
+            <div class="task-list" id="tasks2">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+            <div class="game-events" id="events2">
+                <!-- Game events will be dynamically generated here -->
+            </div>
+            <button class="btn-generate" onclick="generateCharacter(2)">Generate Character</button>
+            <button class="btn-task" onclick="generateTask(2)">Generate Task</button>
+            <button class="btn-play" onclick="playGame(2)">Play Game</button>
+        </div>
+        <div class="player-box" id="player3">
+            <h2>Player 3</h2>
+            <div class="attribute-list" id="attributes3">
+                <!-- Attributes will be dynamically generated here -->
+            </div>
+            <div class="task-list" id="tasks3">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+            <div class="game-events" id="events3">
+                <!-- Game events will be dynamically generated here -->
+            </div>
+            <button class="btn-generate" onclick="generateCharacter(3)">Generate Character</button>
+            <button class="btn-task" onclick="generateTask(3)">Generate Task</button>
+            <button class="btn-play" onclick="playGame(3)">Play Game</button>
+        </div>
+        <div class="player-box" id="player4">
+            <h2>Player 4</h2>
+            <div class="attribute-list" id="attributes4">
+                <!-- Attributes will be dynamically generated here -->
+            </div>
+            <div class="task-list" id="tasks4">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+            <div class="game-events" id="events4">
+                <!-- Game events will be dynamically generated here -->
+            </div>
+            <button class="btn-generate" onclick="generateCharacter(4)">Generate Character</button>
+            <button class="btn-task" onclick="generateTask(4)">Generate Task</button>
+            <button class="btn-play" onclick="playGame(4)">Play Game</button>
+        </div>
+    </div>
+
+    <script>
+        // Inline JavaScript
+        function generateCharacter(playerNum) {
+            var classes = ["Developer", "Data Scientist", "Backend Engineer"];
+            var languages = ["JavaScript", "Python", "Java"];
+            var algorithms = ["Bubble Sort", "Binary Search", "Quick Sort"];
+            var complexities = ["O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)"];
+
+            var playerName = "Player " + playerNum;
+            var playerClass = classes[Math.floor(Math.random() * classes.length)];
+            var playerLanguage = languages[Math.floor(Math.random() * languages.length)];
+            var playerAlgorithm = algorithms[Math.floor(Math.random() * algorithms.length)];
+            var playerComplexity = complexities[Math.floor(Math.random() * complexities.length)];
+
+            var attributeList = document.getElementById("attributes" + playerNum);
+            attributeList.innerHTML = "";
+            attributeList.innerHTML += "<li><strong>Name:</strong> " + playerName + "</li>";
+            attributeList.innerHTML += "<li><strong>Class:</strong> " + playerClass + "</li>";
+            attributeList.innerHTML += "<li><strong>Main Language:</strong> " + playerLanguage + "</li>";
+            attributeList.innerHTML += "<li><strong>Preferred Algorithm:</strong> " + playerAlgorithm + "</li>";
+            attributeList.innerHTML += "<li><strong>Algorithm Complexity:</strong> " + playerComplexity + "</li>";
+        }
+
+        function generateTask(playerNum) {
+            var tasks = [
+                { description: "Implement " + generateRandomAlgorithm() + " algorithm.", complexity: getRandomComplexity() },
+                { description: "Optimize code for " + generateRandomProblem() + ".", complexity: getRandomComplexity() },
+                { description: "Fix bugs in " + generateRandomLanguage() + " code.", complexity: getRandomComplexity() }
+            ];
+
+            var taskList = document.getElementById("tasks" + playerNum);
+            taskList.innerHTML = "";
+
+            for (var i = 0; i < 3; i++) {
+                var task = tasks[Math.floor(Math.random() * tasks.length)];
+                taskList.innerHTML += "<li><strong>Task:</strong> " + task.description + "<br><strong>Required Complexity:</strong> " + task.complexity + "</li>";
+            }
+        }
+
+        function playGame(playerNum) {
+            var events = [
+                "You encounter a complex problem! Choose an algorithm with the appropriate complexity.",
+                "You find a code optimization challenge. Use your skills to improve efficiency.",
+                "A bug has surfaced in critical code. Quickly resolve it without disrupting the system."
+            ];
+
+            var eventList = document.getElementById("events" + playerNum);
+            eventList.innerHTML = "";
+
+            var randomEventIndex = Math.floor(Math.random() * events.length);
+            var event = events[randomEventIndex];
+            eventList.innerHTML += "<li><strong>Event:</strong> " + event + "</li>";
+        }
+
+        function generateRandomAlgorithm() {
+            var algorithms = ["Bubble Sort", "Binary Search", "Quick Sort", "Merge Sort", "Selection Sort"];
+            return algorithms[Math.floor(Math.random() * algorithms.length)];
+        }
+
+        function generateRandomProblem() {
+            var problems = ["memory management", "thread synchronization", "database optimization", "network latency"];
+            return problems[Math.floor(Math.random() * problems.length)];
+        }
+
+        function generateRandomLanguage() {
+            var languages = ["JavaScript", "Python", "Java", "C++", "Ruby"];
+            return languages[Math.floor(Math.random() * languages.length)];
+        }
+
+        function getRandomComplexity() {
+            var complexities = ["O(1)", "O(log n)", "O(n)", "O(n log n)", "O(n^2)"];
+            return complexities[Math.floor(Math.random() * complexities.length)];
+        }
+    </script>
+</body>
+</html>
